@@ -4,6 +4,7 @@ import sqlite3
 app = Flask(__name__)
 
 # --- Configuração do banco ---
+
 def init_db():
     conn = sqlite3.connect("database.db")
     conn.execute("""
@@ -16,10 +17,19 @@ def init_db():
             data TEXT NOT NULL
         )
     """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS categorias (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT UNIQUE NOT NULL
+        )
+    """)
+    # Inserir categorias padrão se não existirem
+    categorias_padrao = ["Alimentação", "Transporte", "Lazer", "Saúde", "Educação"]
+    for cat in categorias_padrao:
+        conn.execute("INSERT OR IGNORE INTO categorias (nome) VALUES (?)", (cat,))
     conn.commit()
     conn.close()
 
-init_db()
 
 # --- Função para conexão com o banco ---
 def get_db_connection():

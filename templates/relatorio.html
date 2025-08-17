@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório Mensal</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; }
+        h1, h2 { text-align: center; }
+        .summary { display: flex; justify-content: space-around; margin-bottom: 30px; }
+        canvas { display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <h1>Relatório - {{ mes }}/{{ ano }}</h1>
+
+    <div class="summary">
+        <p>Total Receitas: R$ {{ total_receitas }}</p>
+        <p>Total Despesas: R$ {{ total_despesas }}</p>
+        <p>Saldo: R$ {{ saldo }}</p>
+    </div>
+
+    <h2>Gastos por Categoria</h2>
+    <canvas id="categoriaChart" width="400" height="400"></canvas>
+
+    <script>
+        // Dados do Flask para JS
+        const categoriasData = {{ categorias | tojson | safe }};
+
+        const labels = Object.keys(categoriasData);
+        const data = Object.values(categoriasData);
+
+        const ctx = document.getElementById('categoriaChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Gastos por Categoria',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(199, 199, 199, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(159, 159, 159, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+    </script>
+</body>
+</html>
