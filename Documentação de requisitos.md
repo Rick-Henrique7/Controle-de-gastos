@@ -59,3 +59,6 @@ Cadastrar uma despesa → O usuário informa valor, data, descrição e categori
 Visualizar relatórios → O usuário seleciona um mês e o sistema mostra receitas, despesas, saldo e gráficos.
 
 Exportar relatório → O usuário clica em "Exportar PDF" e o sistema gera o arquivo.
+<div align="center">
+<img src="https://github.com/user-attachments/assets/08d81c8d-65c7-4193-a1d6-956e80b74cc0" width="400px" />
+</div>
